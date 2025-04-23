@@ -1,0 +1,822 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+      background-color: #1a1a1a;
+      color: white;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4rem 2rem;
+      margin-top:2.5rem;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      color: #ccc;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 100px);
+      grid-gap: 10px;
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    .image-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      opacity: 0;
+      animation: zoomIn 0.6s ease-out forwards;
+    }
+
+    .image-grid img:nth-child(1) { animation-delay: 0.1s; }
+    .image-grid img:nth-child(2) { animation-delay: 0.2s; }
+    .image-grid img:nth-child(3) { animation-delay: 0.3s; }
+    .image-grid img:nth-child(4) { animation-delay: 0.4s; }
+    .image-grid img:nth-child(5) { animation-delay: 0.5s; }
+    .image-grid img:nth-child(6) { animation-delay: 0.6s; }
+    .image-grid img:nth-child(7) { animation-delay: 0.7s; }
+    .image-grid img:nth-child(8) { animation-delay: 0.8s; }
+    .image-grid img:nth-child(9) { animation-delay: 0.9s; }
+    .image-grid img:nth-child(10) { animation-delay: 1s; }
+    .image-grid img:nth-child(11) { animation-delay: 1.1s; }
+    .image-grid img:nth-child(12) { animation-delay: 1.2s; }
+    .image-grid img:nth-child(13) { animation-delay: 1.3s; }
+    .image-grid img:nth-child(14) { animation-delay: 1.4s; }
+    .image-grid img:nth-child(15) { animation-delay: 1.5s; }
+    .image-grid img:nth-child(16) { animation-delay: 1.6s; }
+    .image-grid img:nth-child(17) { animation-delay: 1.7s; }
+    .image-grid img:nth-child(18) { animation-delay: 1.8s; }
+    .image-grid img:nth-child(19) { animation-delay: 1.9s; }
+    .image-grid img:nth-child(20) { animation-delay: 2s; }
+
+    @keyframes zoomIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .image-grid {
+        grid-template-columns: repeat(3, 80px);
+        margin-top: 2rem;
+      }
+    }
+
+    {% comment %} button {% endcomment %}
+          
+      .btn-btn {
+      width: 6.5em;
+      height: 2.3em;
+      margin: 0.5em;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 0.625em;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      }
+
+      .btn-btn:hover {
+      color: black;
+      }
+
+      .btn-btn:after {
+      content: "";
+      background: white;
+      position: absolute;
+      z-index: -1;
+      left: -20%;
+      right: -20%;
+      top: 0;
+      bottom: 0;
+      transform: skewX(-45deg) scale(0, 1);
+      transition: all 0.5s;
+      }
+
+      .btn-btn:hover:after {
+      transform: skewX(-45deg) scale(1, 1);
+      -webkit-transition: all 0.5s;
+      transition: all 0.5s;
+      }
+      
+
+      {% comment %}  card {% endcomment %}
+
+      .card-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 10rem;
+        margin-top: 4rem;
+        margin-bottom:3rem;
+        flex-wrap: wrap;
+      }
+            
+    .card {
+      position: relative;
+      width: 250px;
+      height: 314px;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      padding: 12px;
+      gap: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      left: -5px;
+      margin: auto;
+      width: 260px;
+      height: 324px;
+      border-radius: 10px;
+      background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100% );
+      z-index: -10;
+      pointer-events: none;
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card::after {
+      
+      content: "";
+      z-index: -1;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100% );
+      transform: translate3d(0, 0, 0) scale(0.95);
+      filter: blur(20px);
+    }
+
+    .heading {
+      font-size: 20px;
+      text-transform: capitalize;
+      font-weight: 700;
+    }
+
+    .card p:not(.heading) {
+      font-size: 14px;
+    }
+
+    .card p:last-child {
+      color: #e81cff;
+      font-weight: 600;
+    }
+
+    .card:hover::after {
+      filter: blur(30px);
+    }
+
+    .card:hover::before {
+      transform: rotate(-90deg) scaleX(1.34) scaleY(0.77);
+    }
+
+
+     {% comment %} about section {% endcomment %}
+
+    .about-section {
+      background-color: #1a1a1a;
+      padding: 5rem 2rem;
+      color: #ffffff;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+    
+    .about-container {
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+    }
+    
+    .about-container h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #e0e0e0;
+    }
+    
+    .about-container p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #ccc;
+      margin-bottom: 1.2rem;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+     {% comment %} headings {% endcomment %}
+
+    .heading-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 5rem;
+      margin-bottom:3rem;
+    }
+    
+    .highlight-heading {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #e0e0e0;
+      position: relative;
+      padding-bottom: 0.5rem;
+      text-align: center;
+    }
+    
+    .highlight-heading::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      width: 100%;
+      background: linear-gradient(90deg, #00f5ff, #ff00ff, #00f5ff);
+      background-size: 200% 100%;
+      animation: glow-underline 3s linear infinite;
+      border-radius: 5px;
+    }
+    
+    @keyframes glow-underline {
+      0% {
+        background-position: 0% 50%;
+      }
+      100% {
+        background-position: 200% 50%;
+      }
+    }
+
+
+    {% comment %} testimonials {% endcomment %}
+    /* Testimonial Section Styling */
+.testimonial-section {
+  padding: 3rem 0;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.testimonial-container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.testimonial-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.testimonial-card {
+  background: #262626;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 30%;
+  min-width: 250px; /* Prevents it from shrinking too much */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-10px);
+}
+
+.testimonial-card p {.testimonial-card {
+  background: #262626;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 30%;
+  min-width: 250px; /* Prevents it from shrinking too much */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.testimonial-card .author {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #00f5ff;
+  margin-top: 1rem;
+}
+
+/* Reuse Heading Animation */
+.testimonial-section .heading-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 6rem;
+}
+
+.testimonial-section .highlight-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #e0e0e0;
+  position: relative;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.testimonial-section .highlight-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, #00f5ff, #ff00ff, #00f5ff);
+  background-size: 200% 100%;
+  animation: glow-underline 3s linear infinite;
+  border-radius: 5px;
+}
+
+@keyframes glow-underline {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.profile-img-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: -60px;
+  margin-bottom: 1rem;
+}
+
+.profile-img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #e81cff;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+  background-color: #111;
+}
+
+.developer-card {
+  padding-top: 3.5rem; /* make space for image overlap */
+  text-align: center;
+}
+
+.developer-card .heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.developer-card .tagline {
+  color: #e81cff;
+  font-weight: 600;
+}
+
+
+
+{% comment %} features {% endcomment %}
+.features-section {
+  
+  padding: 5rem 2rem;
+  animation: fadeIn 1s ease-in;
+}
+
+.features-list {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  max-width: 350px;
+  text-align: center;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateY(-10px);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit; /* Optional: keeps the text color same as parent */
+}
+
+
+
+
+{% comment %} FAQs Section {% endcomment %}
+.faq-section {
+  
+  padding: 5rem 2rem;
+  animation: fadeIn 1s ease-in;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.faq-item {
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.faq-item h3 {
+  font-size: 1.6rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.faq-item p {
+  font-size: 1rem;
+  color: #cfcfcf;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+    
+    
+    
+  </style>
+</head>
+<body>
+
+  <section class="hero container">
+    <div class="hero-text">
+        <h1><span class="typewriter" data-text="AI That Listens, Sees, and Speaks — In Every Tongue"></span></h1>
+        <p><span class="typewriter" data-text="Your smart companion for every language and every input. Real-time AI powered by Groq."></span></p>
+        <div class="mt-4">
+          <button class="btn-btn" onclick="window.location.href='/assist';">Try Voxis</button>
+          <!-- <button class="btn-btn" onclick="window.location.href='/contact';"></button> -->
+
+        </div>
+      </div>
+      
+
+      <div class="image-grid ms-4">
+        <!-- Replace these src links with the static tag to ensure proper path handling -->
+        <img src="{% static 'AI-1.png' %}" alt="">
+        <img src="{% static 'AI-2.png' %}" alt="">
+        <img src="{% static 'AI-3.png' %}" alt="">
+        <img src="{% static 'AI-4.png' %}" alt="">
+        <img src="{% static 'AI-5.png' %}" alt="">
+        <img src="{% static 'AI-6.png' %}" alt="">
+        <img src="{% static 'AI-7.png' %}" alt="">
+        <img src="{% static 'AI-8.png' %}" alt="">
+        <img src="{% static 'AI-9.png' %}" alt="">
+        <img src="{% static 'AI-10.png' %}" alt="">
+        <img src="{% static 'AI-11.png' %}" alt="">
+        <img src="{% static 'AI-12.png' %}" alt="">
+        <img src="{% static 'AI-13.png' %}" alt="">
+        <img src="{% static 'AI-14.png' %}" alt="">
+        <img src="{% static 'AI-15.png' %}" alt="">
+     </div>
+  </section>
+
+
+  <!-- Section Heading for Cards -->
+<div class="heading-container">
+  <h2 class="highlight-heading">What Makes Voxis Unique</h2>
+</div>
+
+
+
+  <!-- Unique --> 
+  <div class="card-wrapper">
+    <div class="card">
+      <p class="heading" style="font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; text-align: center;">Popular this month</p>
+      <p style="font-size: 1rem; text-align: center;">Trending features and updates this month include:</p>
+      <ul style=" text-align: center;list-style-type: none; padding-left: 0; font-size: 0.8rem; margin-top: 1rem;">
+          <li>- Enhanced voice command accuracy</li>
+          <li>- Added support for new languages</li>
+          <li>- Improved user interface design</li>
+      </ul>
+
+    </div>
+  
+    <div class="card">
+      <p class="heading" style="font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem;  text-align: center; ">Languages Supported</p>
+    <p style="font-size: 1rem; text-align: center;">Voxis supports multiple languages, including:</p>
+    <ul style=" text-align: center;list-style-type: none; padding-left: 0; font-size: 0.8rem; margin-top: 0.5rem;">
+      <li>- English</li>
+      <li>- Spanish</li>
+      <li>- French</li>
+      <li>- German</li>
+      <li>- And many more...</li>
+    </ul>
+    </div>
+  
+    <div class="card">
+      <p class="heading" style="font-size: 1.3rem; font-weight: bold; margin-bottom: 1rem; text-align: center;">Input Types</p>
+    <p style="font-size: 1rem; text-align: center;">Voxis allows multiple types of inputs for better interaction:</p>
+    <ul style=" text-align: center;list-style-type: none; padding-left: 0; font-size: 0.8rem; margin-top: 1rem;">
+      <li>- Voice Input for hands-free commands</li>
+      <li>- Image Input for object detection</li>
+      <li>- Text Input for manual queries</li>
+    </ul>
+    </div>
+  </div>
+
+
+
+
+
+ 
+
+
+  
+<!-- About Section -->
+<section class="about-section fade-in" id="about">
+  <div class="about-container">
+    <div class="heading-container">
+      <h2 class="highlight-heading">About Voxis</h2>
+    </div>
+    
+    <p>
+      <strong>Voxis</strong> is your all-in-one real-time multilingual AI assistant that sees, hears, and speaks.
+      Designed with the power of Groq and advanced multimodal intelligence, it understands speech, processes images,
+      and reads text—instantly. Whether you're collaborating across borders, using voice commands, or scanning visual content,
+      Voxis bridges communication gaps with smooth, futuristic precision.
+    </p>
+    <p>
+      Built for developers, creators, educators, and everyday users, Voxis is your gateway to intelligent global interaction.
+    </p>
+  </div>
+</section>
+
+
+{% comment %} features {% endcomment %}
+<section class="features-section fade-in">
+  <div class="container">
+    <div class="heading-container" >
+      <h2 class="highlight-heading">Key Features of Voxis</h2>
+    </div>
+    <div class="features-list">
+      <div class="feature-item">
+        <h3 style="font-size: 1.8rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">Real-time Speech Recognition</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">Experience seamless voice recognition with immediate responses, offering a hands-free user experience for your tasks.</p>
+      </div>
+      <div class="feature-item">
+        <h3 style="font-size: 1.8rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">Multi-language Support</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">Voxis understands multiple languages, making it easy for users around the world to interact in their native language.</p>
+      </div>
+      <div class="feature-item">
+        <h3 style="font-size: 1.8rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">AI-powered Assistance</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">Powered by advanced AI algorithms, Voxis offers personalized responses and evolves over time to serve you better.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% comment %} FAQs Section {% endcomment %}
+<section class="faq-section fade-in">
+  <div class="container">
+    <div class="heading-container">
+      <h2 class="highlight-heading">FREQUENTLY ASKED QUESTIONS</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3 style="font-size: 1.6rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">How accurate is the voice recognition?</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">Voxis uses cutting-edge AI technology for voice recognition, achieving over 98% accuracy in real-time responses.</p>
+      </div>
+      <div class="faq-item">
+        <h3 style="font-size: 1.6rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">Can I use Voxis in multiple languages?</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">Yes! Voxis supports multiple languages including English, Spanish, French, German, and more.</p>
+      </div>
+      <div class="faq-item">
+        <h3 style="font-size: 1.6rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">Is Voxis available on all devices?</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">Voxis is available on most modern devices, including smartphones, desktops, and smart home devices.</p>
+      </div>
+      <div class="faq-item">
+        <h3 style="font-size: 1.6rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">What is the new Text-to-Speech feature?</h3>
+        <p style="font-size: 1rem; color: #cfcfcf;">We recently added a Text-to-Speech converter using GTTS (Google Text-to-Speech), which allows you to convert text into speech in real time. Simply type your message, and the assistant will read it out loud!</p>
+    </div>
+    <div class="faq-item">
+      <h3 style="font-size: 1.6rem; font-weight: bold; color: #ffffff; margin-bottom: 1rem;">How does the Text-to-Speech feature work?</h3>
+      <p style="font-size: 1rem; color: #cfcfcf;">Our Text-to-Speech feature uses the GTTS (Google Text-to-Speech) engine to read out the text you enter. It’s designed to work seamlessly across different devices, offering a natural-sounding voice for your assistant's responses.</p>
+  </div>
+  
+    
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+{% comment %} testimonial {% endcomment %}
+<section class="testimonial-section fade-in">
+  <div class="testimonial-container">
+    <div class="heading-container">
+      <h2 class="highlight-heading">What Our Users Say</h2>
+    </div>
+    <div class="testimonial-cards">
+      <div class="testimonial-card">
+        <p>"Voxis is an absolute game-changer! It made communication in multiple languages so easy and seamless."</p>
+        <p style="color: gold; font-size: 1.2rem;">★★★★★</p>
+        <p>- Arghyadeep Patra</p>
+      </div>
+      <div class="testimonial-card">
+        <p>"The real-time features are incredible. I’ve never experienced an AI assistant as versatile as Voxis."</p>
+        <p style="color: gold; font-size: 1.2rem;">★★★★⯨</p>
+        <p>- Ahana Sen</p>
+      </div>
+      <div class="testimonial-card">
+        <p>"Absolutely love the multilingual support. Voxis has revolutionized my work and communication."</p>
+        <p style="color: gold; font-size: 1.2rem;">★★★★☆</p>
+        <p>- Arghajyoti Sarkar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Developers Section -->
+<section class="developers-section fade-in">
+  <div class="about-container">
+    <div class="heading-container">
+      <h2 class="highlight-heading">Meet the Developers</h2>
+    </div>
+    <div class="card-wrapper">
+      <div>
+        <a href="https://www.linkedin.com/in/aritra-chattopadhyay-5198492a4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+          <div class="card developer-card">
+            <div class="profile-img-wrapper">
+              <img src="{% static 'Aritra.jpeg' %}" alt="Aritra " class="profile-img">
+            </div>
+            <p class="heading">Aritra Chattopadhyay</p>
+            <p>AI Integration & Back-End</p>
+            <p class="tagline">Brains behind the bot</p>
+          </div>    
+        </a>
+      </div>
+
+      <div>
+        <a href="https://www.linkedin.com/in/arghya-chakraborty-61b151276?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
+          <div class="card developer-card">
+            <div class="profile-img-wrapper" >
+              <img src="{% static 'Arghya.jpeg' %}"" alt="Arghya" class="profile-img">
+            </div>
+            <p class="heading">Arghya Chakraborty</p>
+            <p>Back-End & UI/UX</p>
+            <p class="tagline">Full-Stack, Full-Style</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<!-- contact -->
+
+<section class="contact-section fade-in" style="padding: 4rem 2rem; background: #1a1a1a; color: #fff;" id="contact">
+  <div class="about-container">
+    <h2 style="text-align: center; font-size: 2.5rem; font-weight: bold; color: #e0e0e0; margin-bottom: 1rem; border-bottom: 2px solid #00bcd4; display: inline-block;">
+      Contact Us
+    </h2>
+    {% if success %}
+      <p style="text-align: center; color: #00ff99; margin-top: 1rem;">Your message has been sent!</p>
+    {% endif %}
+    <form method="post" style="max-width: 600px; margin: 2rem auto;">
+      {% csrf_token %}
+      <div style="margin-bottom: 1rem;">{{ form.name }}</div>
+      <div style="margin-bottom: 1rem;">{{ form.email }}</div>
+      <div style="margin-bottom: 1rem;">{{ form.subject }}</div>
+      <div style="margin-bottom: 1rem;">{{ form.message }}</div>
+      <button type="submit" class="btn-btn">Send</button>
+    </form>
+  </div>
+</section>
+
+
+
+
+
+  
+
+</body>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const typewriters = document.querySelectorAll('.typewriter');
+
+    typewriters.forEach((el, index) => {
+      const text = el.getAttribute('data-text');
+      let i = 0;
+
+      function typeChar() {
+        if (i < text.length) {
+          el.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeChar, 50); // Typing speed
+        }
+      }
+
+      // Delay each typewriter based on its index to avoid overlap
+      setTimeout(typeChar, index * 2000);
+    });
+  });
+</script>
+
+
+{% endblock %}

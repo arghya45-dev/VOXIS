@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text-to-Speech Converter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(145deg, #01010f, #031c32);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .left, .right {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 26px;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #00f2fe;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 12px;
+            resize: none;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #00f2fe;
+            box-shadow: 0 0 8px #00f2fe;
+        }
+
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn {
+            background: #00c6ff;
+            border: none;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 10px;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgb(50, 114, 162);
+            background-color:rgb(50, 114, 162);
+        }
+
+        .right {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        p {
+            font-size: 16px;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 15px;
+            outline: none;
+        }
+
+        a.btn {
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Side: Form -->
+        <div class="left">
+            <h2>🎙️ Text-to-Speech Converter</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <label>Enter Text:</label><br>
+                <textarea name="text" placeholder="Type something..." required>{{ user_text }}</textarea><br>
+                <button type="submit" class="btn">🔊 Convert to Speech</button>
+            </form>
+
+            {% if audio_file_url %}
+            <h3>🎧 Listen to Speech:</h3>
+            <audio controls autoplay>
+                <source src="{{ audio_file_url }}" type="audio/mpeg">
+                Your browser does not support the audio tag.
+            </audio>
+            <br>
+            <a href="{{ audio_file_url }}" download="speech.mp3" class="btn">⬇️ Download Audio</a>
+            <a href="/" class="btn">⬅️ Back</a>
+            {% endif %}
+        </div>
+
+        <!-- Right Side: Show Entered Text -->
+        {% if user_text %}
+        <div class="right">
+            <h3>📜 Entered Text:</h3>
+            <p>{{ user_text }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
