@@ -28,10 +28,10 @@ SECRET_KEY = 'django-insecure-%4v=u)y)h@!x%m0mq+@g_ekv2xx++fd#3ryd(3-6#8oa$!+##y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ["voxis.onrender.com"]
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["voxis.onrender.com"]
 
-CSRF_TRUSTED_ORIGINS = ['https://voxis.onrender.com']
+# CSRF_TRUSTED_ORIGINS = ['https://voxis.onrender.com']
 
 
 # Application definition
