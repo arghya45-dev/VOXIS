@@ -24,7 +24,7 @@ Its goal is to **bridge digital and human communication across languages and for
 
 **Team Members:**  
 - **Arghya Chakraborty** ([GitHub](https://github.com/arghya45-dev)) – Backend Developer, UI-UX  
-- **Aritra Chattopadhyay** ([GitHub]((https://github.com/Aritra091)) – Brain behind the bot 
+- **Aritra Chattopadhyay** ([GitHub](https://github.com/Aritra091)) – Brain behind the bot 
 
 **Approach:**  
 - Chose this problem to push the limits of AI accessibility and real-time responsiveness  
